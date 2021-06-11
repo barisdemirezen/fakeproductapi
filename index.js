@@ -1,10 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+
 //  const redis = require('redis');
 const productRouter = require('./routes/product');
-
+const guideRouter = require('./routes/guide');
 const app = express();
+
+app.set('view engine','pug');
+app.set('views', './views');
+
 
 const dbUsername = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
@@ -28,7 +33,10 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
 app.use('/api/product', productRouter);
+app.use('/', guideRouter);
 
 app.listen(appPort, () => {
   console.log(`Listening for ${appPort}`);
