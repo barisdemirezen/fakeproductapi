@@ -1,11 +1,9 @@
-html(lang="tr")
-  head
-    link(rel = 'stylesheet', href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css')
-    title= "Cool"
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x' crossorigin='anonymous')
+  link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&display=swap")
+  link(rel="stylesheet", href="css/style.css")
+  title Fake Product API!
   body
-    nav.navbar.navbar-light.bg-light
-        .container-fluid 
-            a.navbar-brand(href="#")
-                img.d-inline-block.align-text-top.px-5(src="../img/logo.png", alt="", height="32")
-                span good one
-
+    include navbar.pug
