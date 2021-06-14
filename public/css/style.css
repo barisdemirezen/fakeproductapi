@@ -1,3 +1,28 @@
 body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
+.bg-gray {
+  background-color: #E2E2E2;
+}
+.banner-db {
+  width: 80%;
+  float: right;
+}
+.btn-wide {
+  width: 50%;
+}
+.scroll-down {
+  animation: scroll-down .9s ease infinite alternate;;
+}
+@keyframes scroll-down {
+  from {
+    opacity: 0;
+  }
+  to{
+    opacity: 100%;
+  }
+}
+
+.navbar {
+  transition: .5s ease;
+}
