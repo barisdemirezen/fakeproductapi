@@ -8,10 +8,18 @@ block content
 					.h1 Sahte Ürün API
 					p.mt-4 Hepimizin hazırladığı mini projeler için API ihtiyacı olmuştur. Bu projelerde başlık, açıklama, görsel belki de fiyat gibi bilgilerin hepsini kendimiz oluşturmak durumunda kalabiliyoruz. #[span.text-primary Sahte Ürün API] bu zorlukla karşılaşan diğer yazılımcılar için geliştirilmiş bir projedir. Kullanımı tamamen ücretsizdir ve açık kaynak kodludur.
 					.d-flex.gap-3.mt-4
-						.btn.btn-primary.btn-wide BAŞLA
+						.btn.btn-primary.btn-wide HEMEN BAŞLA
 						.btn.btn-outline-primary.btn-wide GİTHUB 
 			.col-md-6.d-none.d-md-block
 				img(src="img/server.svg", alt="server illustration").img-fluid.h-auto.banner-db
 	.container-fluid.min-vh-100
 		.row.p-2.bg-primary
-			.col-12.text-white.h3.m-0 SELAM
+			.col-12.text-white.h3.m-0 HEMEN BAŞLA
+		.container.mt-5
+			.row 
+				.col-12.bg-light.rounded.py-2  
+					.input-group.mb-3
+						span.input-group-text https://example.com/api/
+						input(type="text").form-control.border.border-2.border-primary#request-address
+						button.btn.btn-primary#request-button Button
+					.p-2.border.border-1.border-primary.rounded#response-area selam naber
