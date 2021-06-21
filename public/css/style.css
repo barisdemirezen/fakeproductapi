@@ -24,5 +24,11 @@ body {
 }
 
 .navbar {
+  position: absolute;
+  top: 0;
   transition: .5s ease;
+}
+
+.language-json {
+  max-height: 600px;
 }

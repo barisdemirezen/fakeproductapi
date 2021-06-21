@@ -1,26 +1,50 @@
-const navbar = document.querySelector('.navbar');
-const requestAddress = document.querySelector('#request-address');
-const requestButton = document.querySelector('#request-button');
-const responseArea = document.querySelector('#response-area');
 
+const requestAddress = $('#request-address');
+const responseArea = $('#response-area');
+const pageUrl = $('#page-url');
+
+const pageHeight = window.innerHeight;
+
+let isScrolling = false;
 let status;
-window.onscroll = function(e) {
-    status = this.oldScroll < this.scrollY;
-    if(window.scrollY > 150 && status)
-    {
-        navbar.style.top = `-${navbar.offsetHeight}`;
-    }
-    else
-    {
-        navbar.style.top = `0`;
-    }
-    this.oldScroll = this.scrollY
-  }
 
-requestButton.onclick = function(e) {
-    let response = '';
-    fetch(`${document.location.origin}/api/${requestAddress.value}`)
-    .then( (res) => res.json())
-    .then( (result) => response = JSON.stringify(result))
-    .then(() => responseArea.innerHTML = response)  
+
+$(document).ready(function() {
+    pageUrl.text(`${document.location.origin}/api/`);
+    makeRequest('product');
+
+    $('#fullpage').fullpage({
+        sectionsColor: ['#ffffff', '#074173', '#7BAABE']
+    });
+
+});
+
+requestAddress.keyup( async function(e) {
+    if (e.keyCode == '13') {
+        await makeRequest();
+      }
+});
+
+$('#request-button').click(async function(e) {
+    await makeRequest();
+});
+
+async function makeRequest(defaultReq = requestAddress.val()) {
+  let response = await getResponse(defaultReq);
+  if (response == null) {
+    responseArea.html("Bu istek için bir sonuç bulamadık.");
+  } else {
+    let str = JSON.stringify(response, null, 2);
+    responseArea.html(str);
+    Prism.highlightAll();
+  }
+}
+
+async function getResponse(reqUrl) {
+  
+    return fetch(`${document.location.origin}/api/${reqUrl}`)
+    .then((res) => res.json())
+    .then((result) => {return result})
+    .catch((err) => {});
+
 }
