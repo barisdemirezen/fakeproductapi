@@ -16,7 +16,7 @@ exports.getAll = async (req, res) => {
   } else {
     sortValue = 'id';
   }
-  // Set price sort to asc or desc if defined and id as default.
+  // Set price sort to asc or desc if defined, or id as default if sort is undefined.
 
   Product.find(
     {

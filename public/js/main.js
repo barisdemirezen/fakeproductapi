@@ -3,18 +3,16 @@ const requestAddress = $('#request-address');
 const responseArea = $('#response-area');
 const pageUrl = $('#page-url');
 
-const pageHeight = window.innerHeight;
-
-let isScrolling = false;
-let status;
-
-
 $(document).ready(function() {
-    pageUrl.text(`${document.location.origin}/api/`);
     makeRequest('product');
 
     $('#fullpage').fullpage({
-        sectionsColor: ['#ffffff', '#074173', '#7BAABE']
+        anchors: ['oku', 'dene', 'ogren', 'gelistir'],
+        sectionsColor: ['#FFFFFF', '#074173', '#117EA9', 'black'],
+        normalScrollElements: '#test-area',
+        navigation: true,
+        navigationPosition: 'right',
+        navigationTooltips: ['Oku', 'Dene', 'Öğren', 'Geliştir']
     });
 
 });
