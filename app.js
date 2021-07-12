@@ -1,27 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const server = require('./server');
 
-//  const redis = require('redis');
-const productRouter = require('./routes/product');
-const guideRouter = require('./routes/guide');
-const app = express();
-
+const app = server();
 app.set('view engine', 'pug');
 app.set('views', './views');
-
+app.use(express.static('public'));
 const dbUsername = process.env.DB_USERNAME;
 const dbPassword = process.env.DB_PASSWORD;
 const dbName = process.env.DB_DATABASE;
-//  const redisHost = process.env.REDIS_HOST;
-//  const redisPort = process.env.REDIS_PORT;
-const appPort = process.env.port || 3000;
+const appPort = process.env.PORT;
 
-/*
-client.on('error', (error) => {
-  console.error(error);
-});
-*/
 const dbURL = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.uttnk.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 mongoose
@@ -29,13 +19,4 @@ mongoose
   .then(() => console.log('connection succesfully'))
   .catch((err) => console.log(err + 'connection failed'));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-
-app.use('/api/product', productRouter);
-app.use('/', guideRouter);
-
-app.listen(appPort, () => {
-  console.log(`Listening for ${appPort}`);
-});
+app.listen(appPort || 8001);
