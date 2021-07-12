@@ -15,7 +15,7 @@ const dbPassword = process.env.DB_PASSWORD;
 const dbName = process.env.DB_DATABASE;
 //  const redisHost = process.env.REDIS_HOST;
 //  const redisPort = process.env.REDIS_PORT;
-const appPort = process.env.APP_PORT || 3000;
+const appPort = process.env.port || 3000;
 
 /*
 client.on('error', (error) => {
