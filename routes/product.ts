@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
-const product = require('../controllers/product');
+import {product} from '../controllers/product';
 
 router.get('/', product.getAll);
 
@@ -19,4 +19,4 @@ router.post('*', product.invalidRoute);
 router.put('*', product.invalidRoute);
 router.delete('*', product.invalidRoute);
 
-module.exports = router;
+export = router;
