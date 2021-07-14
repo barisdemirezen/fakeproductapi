@@ -1,14 +1,14 @@
 import express from 'express';
+import productRouter from "./routes/product";
+import guideRouter from "./routes/guide";
 
-import productRouter = require("./routes/product")
-import guideRouter = require("./routes/guide")
-
-export function server(){
-
-        const app = express();
-        app.use(express.json());
-        app.use(express.urlencoded({ extended: true }));
-        app.use('/api/product', productRouter);
-        app.use('/', guideRouter);
-        return app;
+export const server = {
+        server: function() {
+                const app = express();
+                app.use(express.json());
+                app.use(express.urlencoded({ extended: true }));
+                app.use('/api/product', productRouter);
+                app.use('/', guideRouter);
+                return app;
+        }
 }

@@ -1,16 +1,15 @@
-import { Request, Response } from "express"; 
-
-const Product = require('../models/product');
+import { Express, Request, Response } from "express"; 
+import {Product, IProduct} from '../models/product';
 
 export const product = {
 
     getAll : async function (req: Request, res: Response) {
-        const reqCategory = req.query.cat;
-        const reqSort = req.query.price;
-        const reqQuery = req.query.q;
-        const categoryValue = reqCategory || '';
-        const queryValue = reqQuery ? `.*${reqQuery}.*` : '';
-        let sortValue;
+        const reqCategory:string = String(req.query.cat);
+        const reqSort:string = String(req.query.price);
+        const reqQuery:string = String(req.query.q);
+        const categoryValue:string = reqCategory || '';
+        const queryValue:string = reqQuery ? `.*${reqQuery}.*` : '';
+        let sortValue:string;
       
         if (reqSort === 'asc') {
           sortValue = 'price';
@@ -22,33 +21,35 @@ export const product = {
         // Set price sort to asc or desc if defined, or id as default if sort is undefined.
       
         Product.find(
-          {
+          ({
             title: { $regex: queryValue, $options: 'i' },
             category: { $regex: categoryValue, $options: 'i' },
-          },
+          }),
           { _id: 0 },
           { sort: `${sortValue}` },
-          (err:Error, result:JSON) => {
+          (err:Error, result:IProduct[]) => {
             if (err) throw err;
             res.json({ status: '200', result });
           },
         );
       },
       
-      getOne : function (req: Request, res: Response) {
-        const id = Number(req.params.id);
-        if (Number.isNaN(id)) {
+      getOne : async function (req: Request, res: Response) {
+        const queryId:number = Number(req.params.id);
+        if (Number.isNaN(queryId)) {
           res.json({ status: '400', error: 'Please enter valid number as an id' });
           throw new Error('Id is not a number!');
         }
-        Product.findOne({ id }, { _id: 0 }, (err:Error, result:JSON) => {
+        Product.findOne(
+          ({ id:queryId }),
+          (err:Error, result:IProduct) => {
           if (err) throw err;
           if (result) {
             res.json({ status: '200', result });
           } else {
             res
               .status(404)
-              .json({ status: '404', error: `No product is found with id ${id}` });
+              .json({ status: '404', error: `No product is found with id ${queryId}` });
           }
         });
       },
@@ -75,15 +76,15 @@ export const product = {
       },
       
       update : async function (req: Request, res: Response) {
-        const id: number = await this.validateId(Number(req.params.id), res);
+        const queryId: number = await this.validateId(Number(req.params.id), res);
       
-        const found = await Product.findOne({ id }, { _id: 0 }, (err:Error, result:JSON) => {
+        const found = await Product.findOne(({ id:queryId }), (err:Error, result:JSON) => {
           if (err) throw err;
           return result;
         });
       
         if (!found) {
-          res.json({ status: '404', error: `No product is found with id ${id}` });
+          res.json({ status: '404', error: `No product is found with id ${queryId}` });
           throw new Error('No product is found with id');
         }
       
@@ -94,7 +95,7 @@ export const product = {
         const category = req.body.category || found.category;
       
         const product = {
-          id: Number(id),
+          id: Number(queryId),
           title,
           description,
           image,
