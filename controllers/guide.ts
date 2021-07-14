@@ -1,7 +1,6 @@
-import {  Request, Response } from "express";
 
 export const guide = {
-  homePage : function (req: Request, res: Response) {
+  homePage : function (req: any, res: any) {
     res.render('index');
   }
 }

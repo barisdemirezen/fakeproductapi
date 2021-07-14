@@ -1,9 +1,10 @@
 import { Express, Request, Response } from "express"; 
 import {Product, IProduct} from '../models/product';
+import { CallbackError } from "mongoose";
 
 export const product = {
 
-    getAll : async function (req: Request, res: Response) {
+    getAll : async function (req: any, res: any) {
         const reqCategory:string = String(req.query.cat);
         const reqSort:string = String(req.query.price);
         const reqQuery:string = String(req.query.q);
@@ -27,14 +28,14 @@ export const product = {
           }),
           { _id: 0 },
           { sort: `${sortValue}` },
-          (err:Error, result:IProduct[]) => {
+          (err: CallbackError, result:IProduct[]) => {
             if (err) throw err;
             res.json({ status: '200', result });
           },
         );
       },
       
-      getOne : async function (req: Request, res: Response) {
+      getOne : async function (req: any, res: any) {
         const queryId:number = Number(req.params.id);
         if (Number.isNaN(queryId)) {
           res.json({ status: '400', error: 'Please enter valid number as an id' });
@@ -42,7 +43,7 @@ export const product = {
         }
         Product.findOne(
           ({ id:queryId }),
-          (err:Error, result:IProduct) => {
+          (err: CallbackError, result:IProduct) => {
           if (err) throw err;
           if (result) {
             res.json({ status: '200', result });
@@ -54,7 +55,7 @@ export const product = {
         });
       },
       
-      add : async function (req: Request, res: Response) {
+      add : async function (req: any, res: any) {
         const title = req.body.title || '';
         const description = req.body.description || '';
         const image = req.body.image || '';
@@ -75,10 +76,10 @@ export const product = {
         res.json({ status: '200', result: product });
       },
       
-      update : async function (req: Request, res: Response) {
+      update : async function (req: any, res: any) {
         const queryId: number = await this.validateId(Number(req.params.id), res);
       
-        const found = await Product.findOne(({ id:queryId }), (err:Error, result:JSON) => {
+        const found = await Product.findOne(({ id:queryId }), (err: CallbackError, result:JSON) => {
           if (err) throw err;
           return result;
         });
@@ -106,7 +107,7 @@ export const product = {
         res.json({ status: '200', result: product });
       },
       
-      validateId : async function (param: number, res: Response) {
+      validateId : async function (param: number, res: any) {
         const id:number = Number(param);
         if (Number.isNaN(id)) {
           res.json({ status: '400', error: 'Please enter valid number as an id' });
@@ -115,8 +116,8 @@ export const product = {
         return id;
       },
       
-      getLastId : async function (res: Response) {
-        const lastId: number = await Product.countDocuments({}, (err:Error, count: number) => {
+      getLastId : async function (res: any) {
+        const lastId: number = await Product.countDocuments({}, (err: CallbackError, count: number) => {
           if (err) {
             res.json({ status: '500', error: 'An error occured' });
             throw err;
@@ -126,7 +127,7 @@ export const product = {
         return lastId;
       },
       
-      invalidRoute :  function (req: Request, res: Response) {
+      invalidRoute :  function (req: any, res: any) {
         res.json({ status: '404', error: 'This is not a valid route!' });
       }
 

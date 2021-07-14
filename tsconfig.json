@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "typeRoots": ["@types", "node_modules/@types"],
+    "typeRoots": [
+      "./@types",
+      "./node_modules/@types"
+    ],
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",

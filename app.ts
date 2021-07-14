@@ -1,6 +1,6 @@
 require('dotenv').config();
 import express from "express";
-import mongoose  from 'mongoose';
+import mongoose,{ConnectionOptions}  from 'mongoose';
 import {server} from './server';
 
 const app = server.server();
@@ -14,11 +14,11 @@ const dbPassword:string = String(process.env.DB_PASSWORD);
 const dbName:string = String(process.env.DB_DATABASE);
 const appPort:number = Number(process.env.PORT);
 
-const dbURL:string = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.uttnk.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const uri:string = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.uttnk.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
-mongoose
-  .connect(dbURL, ({ useNewUrlParser: true, useUnifiedTopology: true }))
-  .then(() => console.log('connection succesfully'))
-  .catch((err:Error) => console.log(err + 'connection failed'));
+// @ts-ignore
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+
+
 
 app.listen(appPort || 8001);
