@@ -1,8 +1,7 @@
 import express from 'express';
+import { product } from '../controllers/product';
 
 const router = express.Router();
-
-import {product} from '../controllers/product';
 
 router.get('/', product.getAll);
 
@@ -19,4 +18,4 @@ router.post('*', product.invalidRoute);
 router.put('*', product.invalidRoute);
 router.delete('*', product.invalidRoute);
 
-export = router;
+export default router;
