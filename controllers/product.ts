@@ -5,9 +5,9 @@ import { CallbackError } from "mongoose";
 export const product = {
 
     getAll : async function (req: any, res: any) {
-        const reqCategory:string = String(req.query.cat);
-        const reqSort:string = String(req.query.price);
-        const reqQuery:string = String(req.query.q);
+        const reqCategory:string = req.query.cat;
+        const reqSort:string = req.query.price;
+        const reqQuery:string = req.query.q;
         const categoryValue:string = reqCategory || '';
         const queryValue:string = reqQuery ? `.*${reqQuery}.*` : '';
         let sortValue:string;
@@ -56,30 +56,23 @@ export const product = {
       },
       
       add : async function (req: any, res: any) {
-        const title = req.body.title || '';
-        const description = req.body.description || '';
-        const image = req.body.image || '';
-        const price = req.body.price || 0;
-        const category = req.body.category || '';
       
-        const lastId: number = await this.getLastId(res);
-      
-        const product = {
-          id: (lastId + 1),
-          title,
-          description,
-          image,
-          price: Number(price),
-          category,
-        };
+        const product:IProduct = {
+          id : await getLastId(res),
+          title : req.body.title || '',
+          description : req.body.description || '',
+          image : req.body.image || '',
+          price : req.body.price || 0,
+          category : req.body.category || ''
+        }
       
         res.json({ status: '200', result: product });
       },
       
       update : async function (req: any, res: any) {
-        const queryId: number = await this.validateId(Number(req.params.id), res);
+        const queryId: number = await validateId(Number(req.params.id), res);
       
-        const found = await Product.findOne(({ id:queryId }), (err: CallbackError, result:JSON) => {
+        const found = await Product.findOne(({ id:queryId }), (err: CallbackError, result:IProduct) => {
           if (err) throw err;
           return result;
         });
@@ -88,43 +81,17 @@ export const product = {
           res.json({ status: '404', error: `No product is found with id ${queryId}` });
           throw new Error('No product is found with id');
         }
-      
-        const title = req.body.title || found.title;
-        const description = req.body.description || found.description;
-        const image = req.body.image || found.image;
-        const price = req.body.price || found.price;
-        const category = req.body.category || found.category;
-      
-        const product = {
+
+        const product: IProduct = {
           id: Number(queryId),
-          title,
-          description,
-          image,
-          price: Number(price),
-          category,
+          title : req.body.title || found.title,
+          description : req.body.description || found.description,
+          image : req.body.image || found.image,
+          price: Number(req.body.price || found.price),
+          category: req.body.category || found.category
         };
       
         res.json({ status: '200', result: product });
-      },
-      
-      validateId : async function (param: number, res: any) {
-        const id:number = Number(param);
-        if (Number.isNaN(id)) {
-          res.json({ status: '400', error: 'Please enter valid number as an id' });
-          throw new Error('Id is not a number!');
-        }
-        return id;
-      },
-      
-      getLastId : async function (res: any) {
-        const lastId: number = await Product.countDocuments({}, (err: CallbackError, count: number) => {
-          if (err) {
-            res.json({ status: '500', error: 'An error occured' });
-            throw err;
-          }
-          return Number(count);
-        });
-        return lastId;
       },
       
       invalidRoute :  function (req: any, res: any) {
@@ -133,3 +100,22 @@ export const product = {
 
 }
 
+let validateId = async function (param: number, res: any) {
+  const id:number = Number(param);
+  if (Number.isNaN(id)) {
+    res.json({ status: '400', error: 'Please enter valid number as an id' });
+    throw new Error('Id is not a number!');
+  }
+  return id;
+};
+      
+let getLastId = async function (res: any) {
+  const lastId: number = await Product.countDocuments({}, (err: CallbackError, count: number) => {
+    if (err) {
+      res.json({ status: '500', error: 'An error occured' });
+      throw err;
+    }
+    return Number(count);
+  });
+  return lastId;
+};

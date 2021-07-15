@@ -19,6 +19,4 @@ const uri:string = `mongodb+srv://${dbUsername}:${dbPassword}@cluster0.uttnk.mon
 // @ts-ignore
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
-
-
 app.listen(appPort || 8001);
