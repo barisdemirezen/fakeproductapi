@@ -1,15 +1,15 @@
 {
-  "name": "template",
+  "name": "fakeproductapi",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fake product api to use for your projects!",
   "main": "app.ts",
   "scripts": {
     "dev": "nodemon app.ts",
     "test": "jest",
     "start": "ts-node app.ts",
-    "build": "tsc --build"
+    "build": "tsc"
   },
-  "author": "",
+  "author": "Barış Demirezen",
   "license": "ISC",
   "dependencies": {
     "@types/async-redis": "^1.1.2",
