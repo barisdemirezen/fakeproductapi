@@ -1,6 +1,5 @@
 import { promisify } from 'util';
 import redis from 'redis';
-import { IProduct } from '../models/product';
 
 const redisHost: string = String(process.env.REDIS_HOST);
 const redisPort: number = Number(process.env.REDIS_PORT);
@@ -10,6 +9,10 @@ const client = redis.createClient({
   host: redisHost,
   port: redisPort,
   db: redisDb,
+});
+
+client.on('error', function (error) {
+  console.error(error);
 });
 
 const getClientAsync = promisify(client.get).bind(client);
