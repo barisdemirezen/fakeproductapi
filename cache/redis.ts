@@ -11,17 +11,13 @@ const client = redis.createClient({
   db: redisDb,
 });
 
-console.log('host ' + redisHost + ' port ' + redisPort + ' redisDb ' + redisDb);
-client.on('error', function (error) {
-  console.error(error);
-});
-
 const getClientAsync = promisify(client.get).bind(client);
 
 export const cache = {
   getAsync: async function (key: string) {
     const response: string = (await getClientAsync(key))!;
     if (response) {
+      console.log(response);
       return JSON.parse(response);
     }
   },
