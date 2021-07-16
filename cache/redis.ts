@@ -17,7 +17,6 @@ export const cache = {
   getAsync: async function (key: string) {
     const response: string = (await getClientAsync(key))!;
     if (response) {
-      console.log(response);
       return JSON.parse(response);
     }
   },

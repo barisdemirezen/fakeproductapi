@@ -34,7 +34,7 @@ export const product = {
     Product.find(
       {
         title: { $regex: queryValue, $options: 'i' },
-        category: categoryValue,
+        category: { $regex: categoryValue, $options: 'i' },
       },
       { _id: 0 },
       { sort: `${sortValue}` },
