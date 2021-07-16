@@ -61,7 +61,6 @@ export const product = {
     const result: IProduct = await cache.getAsync(cacheKey);
 
     if (result) {
-      console.log('From cache: ' + JSON.stringify(result));
       res.json({ status: '200', result });
       return;
     }
@@ -73,7 +72,6 @@ export const product = {
       (err: CallbackError, result: any) => {
         if (err) throw err;
         if (result) {
-          console.log('NOT from cache: ' + JSON.stringify(result));
           cache.setAsync(cacheKey, result, cacheExpireMinute);
           res.json({ status: '200', result });
         } else {
