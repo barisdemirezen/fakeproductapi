@@ -20,19 +20,29 @@ export const product = {
       sortValue = 'id';
     }
     // Set price sort to asc or desc if defined, or id as default if sort is undefined.
-    const result: any = await cache.get('result');
-    console.log(result);
+
+    const cacheKey: string = `product-list:${categoryValue}_${sortValue}`;
+    const cacheExpireMinute: number = 1440;
+
+    const result: IProduct[] = await cache.getAsync(cacheKey);
+
+    if (result) {
+      res.json({ status: '200', result });
+      return;
+    }
 
     Product.find(
       {
         title: { $regex: queryValue, $options: 'i' },
-        category: { $regex: categoryValue, $options: 'i' },
+        category: categoryValue,
       },
       { _id: 0 },
       { sort: `${sortValue}` },
       (err: CallbackError, result: IProduct[]) => {
         if (err) throw err;
-        cache.set('result', JSON.stringify(result));
+        if (result.length > 0) {
+          cache.setAsync(cacheKey, result, cacheExpireMinute);
+        }
         res.json({ status: '200', result });
       },
     );
@@ -40,21 +50,38 @@ export const product = {
 
   getOne: async function (req: any, res: any) {
     const queryId: number = Number(req.params.id);
+    const cacheKey = `product:${queryId}`;
+    const cacheExpireMinute: number = 1440;
+
     if (Number.isNaN(queryId)) {
       res.json({ status: '400', error: 'Please enter valid number as an id' });
       throw new Error('Id is not a number!');
     }
-    Product.findOne({ id: queryId }, (err: CallbackError, result: IProduct) => {
-      if (err) throw err;
-      if (result) {
-        res.json({ status: '200', result });
-      } else {
-        res.status(404).json({
-          status: '404',
-          error: `No product is found with id ${queryId}`,
-        });
-      }
-    });
+
+    const result: IProduct = await cache.getAsync(cacheKey);
+
+    if (result) {
+      res.json({ status: '200', result });
+      return;
+    }
+
+    Product.findOne(
+      { id: queryId },
+      { _id: 0 },
+      {},
+      (err: CallbackError, result: any) => {
+        if (err) throw err;
+        if (result) {
+          cache.setAsync(cacheKey, result, cacheExpireMinute);
+          res.json({ status: '200', result });
+        } else {
+          res.status(404).json({
+            status: '404',
+            error: `No product is found with id ${queryId}`,
+          });
+        }
+      },
+    );
   },
 
   add: async function (req: any, res: any) {
