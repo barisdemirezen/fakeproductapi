@@ -11,6 +11,7 @@ const client = redis.createClient({
   db: redisDb,
 });
 
+console.log('host ' + redisHost + ' port ' + redisPort + ' redisDb ' + redisDb);
 client.on('error', function (error) {
   console.error(error);
 });
