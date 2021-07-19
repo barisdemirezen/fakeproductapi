@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/035432db-b3d5-4778-bfe5-115922689d41/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/sahteurunapi",
-    "appService.deploySubpath": "."
-}
