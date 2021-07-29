@@ -10,7 +10,6 @@ RUN tsc
 
 COPY views /app/dist
 COPY public /app/dist
-COPY *.env /app/dist
 
 RUN cd ./dist
 
