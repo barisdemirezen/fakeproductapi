@@ -18,6 +18,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.0",
     "mongoose": "^5.13.2",
+    "node-redis-retry-strategy": "^2.1.1",
     "pug": "^3.0.2",
     "redis": "^3.1.2",
     "typegoose": "^5.9.1"
