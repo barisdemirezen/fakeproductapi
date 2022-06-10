@@ -1,8 +1,8 @@
 require('dotenv').config();
-const server = require('../../server');
+const {server} = require('../../dist/server');
 const supertest = require('supertest');
 const { afterAll } = require('@jest/globals');
-const request = supertest(server());
+const request = supertest(server.server());
 const mongoose = require('mongoose');
 
 const dbUsername = process.env.DB_USERNAME;

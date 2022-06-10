@@ -33,5 +33,8 @@
   "devDependencies": {
     "jest": "^27.0.6",
     "supertest": "^6.1.3"
+  },
+  "jest": {
+    "testTimeout": 20000
   }
 }

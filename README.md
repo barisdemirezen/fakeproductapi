@@ -7,9 +7,9 @@ Fake Product Api is a open-source API project to help developers fill their appl
 
 Check out live app. It is ready to go!
 
-[productapi.tech](https://productapi.tech)
+[productapi.live](https://productapi.live)
 
-*Currently site is offline because of pricing. It will be online if I can get credit from AWS*  
+*Currently Redis is not used on live site*  
 ## About it 📝
 
 Fake Product Api is an outcome of one of my requirements while developing mini projects. Yet this mini projects is not a product, I still think that presentation matter. 
@@ -130,7 +130,7 @@ PORT = app_port
 
 **Data Store:** Mongo Atlas Cloud, Redis
 
-**AWS Services:** EC2, Elasticache, S3, Route 53  
+**Cloud Services:** Heroku , AWS S3  
 
 **SSL, Traffic, Caching:** Cloudflare
 ## Relational Projects 🗃️
